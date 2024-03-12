@@ -1,0 +1,17 @@
+*{
+  font-family: Georgia,Times New Roman,Serif !important;
+  line-height: 2em;
+}
+
+#navbarScroll ul li a {
+  cursor: pointer;
+  font-size: 15px !important; 
+}
+
+.navbar-brand{
+  cursor: pointer;
+}
+
+.links{
+  text-decoration: none;
+}
