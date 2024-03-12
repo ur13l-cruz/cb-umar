@@ -93,6 +93,8 @@ vendor/
 # Modules Testing
 _modules/*
 
+node_modules/
+
 # phpenv local config
 .php-version
 
