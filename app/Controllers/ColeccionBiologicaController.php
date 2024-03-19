@@ -19,6 +19,10 @@ class ColeccionBiologicaController extends BaseController
     {
         $db = \Config\Database::connect();
         $query = $db->query('SELECT * FROM vista_1 WHERE id='.$id.';');
+        /*$fields = $db->getFieldNames('vista_1');
+        echo var_dump($fields);*/
+        
+        
         $result = $query->getResult();
         return view('vista_1', ['especie' => $result[0]]);
     }
