@@ -15,3 +15,11 @@
 .links{
   text-decoration: none;
 }
+
+#btn-v1 {
+  background-image: url(../img/icono_v1.svg) !important;
+}
+
+.text-justify {
+  text-align: justify;
+}

@@ -56,9 +56,9 @@
     </div>
   </nav>
 
-  
 
-  
+
+
 
   <div class="">
     <?php echo $this->renderSection('contenido'); ?>
@@ -71,6 +71,10 @@
   </footer>
 
   <script src="<?php echo base_url() ?>/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+  </script>
 </body>
 
 </html>
