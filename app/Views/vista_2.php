@@ -16,12 +16,12 @@
 <div class="container mt-5 mb-5">
   <div class="row mb-3">
     <div class="col-12 col-sm-6 text-center">
-      <h5><?= $especie->dtaxonomicos_nombre_comun ?></h5>
+      <h5 class="fw-bolder"><?= $especie->dtaxonomicos_nombre_comun ?></h5>
     </div>
     <div class="col-12 col-sm-6 text-center">
       <div class="row d-flex justify-content-evenly mb-2 align-items-center ">
         <div class="col-2">
-          <audio id="audio_ardillagris" src="<?= base_url() ?>public/audios/audio_ardillagris.mp3"></audio>
+          <audio id="audio_ardillagris" src="<?= base_url() ?>public/audios/1.mp3"></audio>
           <button id="reproductorAudioArdilla" class="btn btn-primary" type="button"><i class="bi bi-volume-up"></i></button>
         </div>
         <div class="col-2">
@@ -123,9 +123,9 @@
       </div>
       <div class="row">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Género: <i class="fst-italic"><?= $especie->dtaxonomicos_genero ?></i></li>
-          <li class="list-group-item">Especie: <i class="fst-italic"><?= $especie->dtaxonomicos_especie ?></i></li>
-          <li class="list-group-item">Nombre común: <?= $especie->dtaxonomicos_nombre_comun ?></li>
+          <li class="list-group-item"><b>Género:</b> <i class="fst-italic"><?= $especie->dtaxonomicos_genero ?></i></li>
+          <li class="list-group-item"><b>Especie:</b> <i class="fst-italic"><?= $especie->dtaxonomicos_especie ?></i></li>
+          <li class="list-group-item"><b>Nombre común:</b> <?= $especie->dtaxonomicos_nombre_comun ?></li>
         </ul>
       </div>
     </div>

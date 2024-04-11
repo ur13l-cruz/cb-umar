@@ -2,11 +2,10 @@
 
 <?php $this->section('contenido'); ?>
 <?php
+
 $isDatosTaxonomicos = false;
 $isDatosCuratoriales = false;
 $isDatosColecta = false;
-
-
 
 ?>
 
@@ -28,13 +27,17 @@ $isDatosColecta = false;
     </div>
     <div class="col-12 col-sm-6 text-center">
       <div class="row d-flex justify-content-evenly mb-2 align-items-center ">
-        <div class="col-2">
-          <audio id="audio_ardillagris" src="<?= base_url() ?>public/audios/audio_ardillagris.mp3"></audio>
-          <button id="reproductorAudioArdilla" class="btn btn-primary" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Fuente: "><i class="bi bi-volume-up"></i></button>
-        </div>
-        <div class="col-2">
-          <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-play-circle"></i></button>
-        </div>
+        <?php if ($especie->audio_especie) { ?>
+          <div class="col-2">
+            <audio id="audio_ardillagris" src="<?= base_url() ?>public/<?= $especie->audio_especie ?>.mp3"></audio>
+            <button id="reproductorAudioArdilla" class="btn btn-primary" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Fuente: "><i class="bi bi-volume-up" id="iconAudio"></i></button>
+          </div>
+        <?php } ?>
+        <?php if ($especie->video_especie) { ?>
+          <div class="col-2">
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-play-circle"></i></button>
+          </div>
+        <?php } ?>
       </div>
     </div>
   </div>
@@ -78,13 +81,14 @@ $isDatosColecta = false;
         <?php } ?>
 
       </div>
-      <div class="row mt-3">
-        <!-- Carousel imagenes especie en colección -->
-        <div id="carouselExample" class="carousel slide">
-          <div class="carousel-inner">
-            <?php
-            //saber cuantos archivos tiene mi ruta
-            /*
+      <?php if ($especie->carrusel_especie_coleccion) { ?>
+        <div class="row mt-3">
+          <!-- Carousel imagenes especie en colección -->
+          <div id="carouselExample" class="carousel slide">
+            <div class="carousel-inner">
+              <?php
+              //saber cuantos archivos tiene mi ruta
+              /*
             $ruta = "public/img/especie_viva/" . $especie->id . "/";
             $existeRuta = is_dir($ruta);
             if ($existeRuta) {
@@ -100,30 +104,31 @@ $isDatosColecta = false;
                 $active = "";
               }
             }*/
-            ?>
-            <div class="carousel-item active">
-              <img src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" class="d-block w-100" alt="...">
+              ?>
+              <div class="carousel-item active">
+                <img src="<?= base_url() ?>public/img/especie_coleccion/1/foto1.jpg" class="d-block w-100" alt="...">
 
-            </div>
-            <div class="carousel-item">
-              <img src="<?= base_url() ?>public/img/IMG_20230412_164600.jpg" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="<?= base_url() ?>public/img/especie_coleccion/1/foto1.jpg" class="d-block w-100" alt="...">
 
+              </div>
+              <div class="carousel-item">
+                <img src="<?= base_url() ?>public/img/especie_coleccion/1/foto1.jpg" class="d-block w-100" alt="...">
+              </div>
             </div>
-            <div class="carousel-item">
-              <img src="<?= base_url() ?>public/img/IMG_20230412_165008.jpg" class="d-block w-100" alt="...">
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+          <figcaption class="figure-caption text-center">Fuente: <?= $especie->fuentes_carrusel_especie_coleccion ?></figcaption>
         </div>
-        <figcaption class="figure-caption text-center">Fuente: <?= $especie->fuentes_carrusel_especie_coleccion ?></figcaption>
-      </div>
+      <?php } ?>
     </div>
     <div class="col-12 col-sm-6 order-1 order-sm-2">
       <div class="row text-center">
@@ -248,7 +253,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapseDatosColecta" class="accordion-collapse collapse" data-bs-parent="#accordionExample01">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><b>Fecha ingreso:</b> <?= $especie->dcolecta_fecha_ingreso ?></p>
                   <p><b>Número de ejemplares:</b> <?= $especie->dcolecta_numero_ejemplares ?></p>
                   <p><b>Sexo:</b> <?= $especie->dcolecta_sexo ?></p>
@@ -268,7 +273,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapseDatosGeograficos" class="accordion-collapse collapse" data-bs-parent="#accordionExample01">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><b>País:</b> <?= $especie->dgeograficos_pais ?></p>
                   <p><b>Estado:</b> <?= $especie->dgeograficos_estado ?></p>
                   <?php if ($especie->datos_restringidos == 0) { ?>
@@ -311,7 +316,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapseMisEnemigos" class="accordion-collapse collapse" data-bs-parent="#accordionExample1">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_amenazas_v3_v4 ?></p>
                 </div>
               </div>
@@ -320,13 +325,16 @@ $isDatosColecta = false;
         </div>
       </div>
       <!-- Sección para la distribución -->
-      <?php if ($especie->img_distribucion_v3_v4 || $especie->info_distribucion_v3) { ?>
-        <div class="tab-pane fade text-center" id="mapa-tab-pane" role="tabpanel" aria-labelledby="mapa-tab" tabindex="0">
-          <p><?= $especie->info_distribucion_v4 ?></p>
-          <figure class="figure mt-2">
-            <img class="w-75" src="<?= base_url() ?>public/img/distribucion/vista34/<?= $especie->id ?>.png" alt="" srcset="">
-            <figcaption class="figure-caption"><?= $especie->fuente_img_distribucion_v3_v4 ?></figcaption>
-          </figure>
+      <?php if ($especie->img_distribucion_v3_v4 || $especie->info_distribucion_v4) { ?>
+        <div class="tab-pane fade" id="mapa-tab-pane" role="tabpanel" aria-labelledby="mapa-tab" tabindex="0">
+          <p class="text-justify"><?= $especie->info_distribucion_v4 ?></p>
+          <div class="d-flex justify-content-center">
+            <figure class="figure col-sm-8">
+              <img class="w-100" src="<?= base_url() ?>public/img/distribucion/vista34/<?= $especie->id ?>.png" alt="" srcset="">
+              <figcaption class="figure-caption text-center"><?= $especie->fuente_img_distribucion_v3_v4 ?></figcaption>
+            </figure>
+          </div>
+
         </div>
       <?php } ?>
       <div class="tab-pane fade " id="descripcion-tab-pane" role="tabpanel" aria-labelledby="descripcion-tab" tabindex="0">
@@ -345,10 +353,39 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
-                  <p><?= $especie->info_habitos_v3_v4 ?></p>
-                  <!-- carrusel habitos -->
+                <div class="accordion-body">
+                  <div class="text-justify">
+                    <?= $especie->info_habitos_v3_v4 ?>
+                  </div>
+                  <!-- carrusel habitos (mejorar para ocultarlo si no tiene imagenes)-->
+                  <div class="d-flex justify-content-center">
+                    <div id="carouselHabitos" class="carousel slide col-12 col-sm-6">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" class="d-block w-100" alt="...">
 
+                        </div>
+                        <div class="carousel-item">
+                          <img src="<?= base_url() ?>public/img/IMG_20230412_164600.jpg" class="d-block w-100" alt="...">
+
+                        </div>
+                        <div class="carousel-item">
+                          <img src="<?= base_url() ?>public/img/IMG_20230412_165008.jpg" class="d-block w-100" alt="...">
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselHabitos" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselHabitos" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <figcaption class="figure-caption">Fuente: <?= $especie->fuentes_carrusel_habitos_v3_v4 ?></figcaption>
+                  </div>
                 </div>
               </div>
             </div>
@@ -361,12 +398,16 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
-                  <p><?= $especie->info_coloracion_v3_v4 ?></p>
-                  <figure class="figure">
-                    <img class="w-75" src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" alt="" srcset="">
-                    <figcaption class="figure-caption">Fuente: <?= $especie->fuente_img_coloracion_v3_v4 ?>.</figcaption>
-                  </figure>
+                <div class="accordion-body">
+                  <div class="text-justify">
+                    <p><?= $especie->info_coloracion_v3_v4 ?></p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <figure class="figure col-sm-6">
+                      <img class="w-100" src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" alt="" srcset="">
+                      <figcaption class="figure-caption text-center">Fuente: <?= $especie->fuente_img_coloracion_v3_v4 ?>.</figcaption>
+                    </figure>
+                  </div>
                 </div>
               </div>
             </div>
@@ -379,13 +420,13 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_medidas_v4 ?></p>
                 </div>
               </div>
             </div>
           <?php } ?>
-          <?php if ($especie->img_formula_dentaria_v3_v4) { ?>
+          <?php if ($especie->info_formula_dentaria_v4 || $especie->img_formula_dentaria_v3_v4) { ?>
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
@@ -394,10 +435,16 @@ $isDatosColecta = false;
               </h2>
               <div id="collapse4" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body text-center">
-                  <figure class="figure">
-                    <img class="w-75" src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" alt="" srcset="">
-                    <figcaption class="figure-caption">Fuente: <?= $especie->fuente_img_formula_dentaria_v3_v4 ?>.</figcaption>
-                  </figure>
+                  <div class="text-justify">
+                    <p><?= $especie->info_formula_dentaria_v4 ?></p>
+                  </div>
+                  <div class="d-flex justify-content-center">
+                    <figure class="figure col-sm-6">
+                      <img class="w-100" src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" alt="" srcset="">
+                      <figcaption class="figure-caption">Fuente: <?= $especie->fuente_img_formula_dentaria_v3_v4 ?>.</figcaption>
+                    </figure>
+                  </div>
+
                 </div>
               </div>
             </div>
@@ -410,8 +457,8 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse5" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
-                  <p><?= $especie->info_historia_natural_v4 ?></p>
+                <div class="accordion-body text-justify">
+                  <?= $especie->info_historia_natural_v4 ?>
                 </div>
               </div>
             </div>
@@ -425,32 +472,35 @@ $isDatosColecta = false;
               </h2>
               <div id="collapse6" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body ">
-                  <p><?= $especie->info_tipo_vegetacion_v4 ?></p>
-                  <div id="carouselDondeVivo" class="carousel slide col-12 col-sm-6">
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" class="d-block w-100" alt="...">
-
-                      </div>
-                      <div class="carousel-item">
-                        <img src="<?= base_url() ?>public/img/IMG_20230412_164600.jpg" class="d-block w-100" alt="...">
-
-                      </div>
-                      <div class="carousel-item">
-                        <img src="<?= base_url() ?>public/img/IMG_20230412_165008.jpg" class="d-block w-100" alt="...">
-                      </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselDondeVivo" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselDondeVivo" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
+                  <div class="text-justify">
+                    <?= $especie->info_tipo_vegetacion_v4 ?>
                   </div>
+                  <div class="d-flex justify-content-center">
+                    <div id="carouselDondeVivo" class="carousel slide col-12 col-sm-6">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" class="d-block w-100" alt="...">
 
-                  <div class="">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="<?= base_url() ?>public/img/IMG_20230412_164600.jpg" class="d-block w-100" alt="...">
+
+                        </div>
+                        <div class="carousel-item">
+                          <img src="<?= base_url() ?>public/img/IMG_20230412_165008.jpg" class="d-block w-100" alt="...">
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselDondeVivo" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselDondeVivo" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="text-center">
                     <figcaption class="figure-caption">Fuente: <?= $especie->fuentes_carrusel_tipo_vegetacion ?>.</figcaption>
                   </div>
 
@@ -467,7 +517,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse05" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_intervalo_altitud_v4 ?></p>
                 </div>
               </div>
@@ -482,50 +532,54 @@ $isDatosColecta = false;
               </h2>
               <div id="collapse7" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <div class="">
-                    <p><?= $especie->info_alimentacion_v4 ?></p>
+                  <div class="text-justify">
+                    <?= $especie->info_alimentacion_v4 ?>
                   </div>
-                  <div id="carouselQueComo" class="carousel slide col-12 col-sm-6">
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" class="d-block w-100" alt="...">
+                  <div class="d-flex justify-content-center">
+                    <div id="carouselQueComo" class="carousel slide col-12 col-sm-6">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" class="d-block w-100" alt="...">
 
+                        </div>
+                        <div class="carousel-item">
+                          <img src="<?= base_url() ?>public/img/IMG_20230412_164600.jpg" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="<?= base_url() ?>public/img/IMG_20230412_165008.jpg" class="d-block w-100" alt="...">
+                        </div>
                       </div>
-                      <div class="carousel-item">
-                        <img src="<?= base_url() ?>public/img/IMG_20230412_164600.jpg" class="d-block w-100" alt="...">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="<?= base_url() ?>public/img/IMG_20230412_165008.jpg" class="d-block w-100" alt="...">
-                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselQueComo" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselQueComo" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselQueComo" data-bs-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselQueComo" data-bs-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="visually-hidden">Next</span>
-                    </button>
                   </div>
-                  <div>
+                  <div class="text-center">
                     <figcaption class="figure-caption">Fuente: <?= $especie->fuentes_carrusel_alimentacion ?>.</figcaption>
                   </div>
                 </div>
               </div>
             </div>
           <?php } ?>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDimorfismoSexual" aria-expanded="false" aria-controls="collapseDimorfismoSexual">
-                Dimorfismo sexual
-              </button>
-            </h2>
-            <div id="collapseDimorfismoSexual" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-              <div class="accordion-body text-center">
-                <p><?= $especie->info_dimorfismo_sexual ?></p>
+          <?php if ($especie->info_dimorfismo_sexual) { ?>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDimorfismoSexual" aria-expanded="false" aria-controls="collapseDimorfismoSexual">
+                  Dimorfismo sexual
+                </button>
+              </h2>
+              <div id="collapseDimorfismoSexual" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                <div class="accordion-body text-justify">
+                  <p><?= $especie->info_dimorfismo_sexual ?></p>
+                </div>
               </div>
             </div>
-          </div>
+          <?php } ?>
           <?php if ($especie->info_reproduccion_v4) { ?>
             <div class="accordion-item">
               <h2 class="accordion-header">
@@ -534,7 +588,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapseReproduccion" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_reproduccion_v4 ?></p>
                 </div>
               </div>
@@ -548,7 +602,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapseGestacion" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_periodo_gestacion_v3_v4 ?></p>
                 </div>
               </div>
@@ -562,7 +616,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapseNumCrias" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_numero_crias_huevos_v3_v4 ?></p>
                 </div>
               </div>
@@ -577,7 +631,9 @@ $isDatosColecta = false;
               </h2>
               <div id="collapse8" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                  <div><?= $especie->info_rastros_v3_v4 ?></div>
+                  <div class="text-justify">
+                    <?= $especie->info_rastros_v3_v4 ?>
+                  </div>
                   <div class="d-flex justify-content-center">
                     <div id="carouselHuellas" class="carousel slide col-12 col-sm-6">
                       <div class="carousel-inner">
@@ -620,7 +676,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse9" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_localizacion_huesped ?></p>
                 </div>
               </div>
@@ -634,7 +690,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse10" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_huevo_v3_v4 ?></p>
                 </div>
               </div>
@@ -648,7 +704,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse11" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_larva_v3_V4 ?></p>
                 </div>
               </div>
@@ -662,13 +718,13 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse12" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_adulto_v3_v4 ?></p>
                 </div>
               </div>
             </div>
           <?php } ?>
-          <?php if ($especie->info_ciclo_biologico_v3_v4) { ?>
+          <?php if ($especie->info_ciclo_biologico_v3_v4 || $especie->img_ciclo_biologico_v3_v4) { ?>
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse13" aria-expanded="false" aria-controls="collapse13">
@@ -676,8 +732,14 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse13" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
-                  <p><?= $especie->info_ciclo_biologico_v3_v4 ?></p>
+                <div class="accordion-body">
+                  <p class="text-justify"><?= $especie->info_ciclo_biologico_v3_v4 ?></p>
+                  <div class="d-flex justify-content-center">
+                    <figure class="figure col-sm-6">
+                      <img class="w-100" src="<?= base_url() ?>public/img/IMG_20230412_164226.jpg" alt="" srcset="">
+                      <figcaption class="figure-caption">Fuente: <?= $especie->fuente_img_ciclo_biologico_v3_v4 ?>.</figcaption>
+                    </figure>
+                  </div>
                 </div>
               </div>
             </div>
@@ -690,7 +752,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse14" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_hospedero_definitivo_v3_v4 ?></p>
                 </div>
               </div>
@@ -704,7 +766,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse15" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_hospedero_intermediario_v3_v4 ?></p>
                 </div>
               </div>
@@ -718,7 +780,7 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse16" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_hospedero_accidental_v3_v4 ?></p>
                 </div>
               </div>
@@ -732,13 +794,13 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse17" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
+                <div class="accordion-body text-justify">
                   <p><?= $especie->info_hospedero_colecta_v3_v4 ?></p>
                 </div>
               </div>
             </div>
           <?php } ?>
-          <?php if ($especie->info_hospedero_colecta_v3_v4) { ?>
+          <?php if ($especie->referencias_v4) { ?>
             <div class="accordion-item">
               <h2 class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse18" aria-expanded="false" aria-controls="collapse18">
@@ -746,8 +808,8 @@ $isDatosColecta = false;
                 </button>
               </h2>
               <div id="collapse18" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body text-center">
-                  <p><?= $especie->info_hospedero_colecta_v3_v4 ?></p>
+                <div class="accordion-body text-justify">
+                  <p><?= $especie->referencias_v4 ?></p>
                 </div>
               </div>
             </div>
@@ -764,11 +826,11 @@ $isDatosColecta = false;
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Video</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <video class="object-fit-scale" width="100%" controls src="<?php echo base_url() ?>public/videos/prueba_cbUmar.mp4"></video>
+        <video class="object-fit-scale" width="100%" controls src="<?php echo base_url() ?>public/<?= $especie->video_especie ?>.mp4"></video>
         <figcaption class="figure-caption">Fuente video.</figcaption>
       </div>
       <div class="modal-footer d-flex justify-content-center">
@@ -781,7 +843,8 @@ $isDatosColecta = false;
 <script>
   var isPlaying = false;
   var audio = document.getElementById('audio_ardillagris');
-
+  let elementoAudio = document.getElementById('iconAudio');
+  //
   document.getElementById('reproductorAudioArdilla').addEventListener('click', function() {
     if (isPlaying) {
       audio.pause();

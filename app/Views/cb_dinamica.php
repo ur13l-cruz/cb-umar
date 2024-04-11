@@ -40,18 +40,20 @@
         </thead>
         <tbody>
           <?php foreach ($especies as $especie) {
-            echo "<tr>";
-            echo "<td>$especie->dtaxonomicos_nombre_comun</td>";
-            echo "<td class='fst-italic'>$especie->dtaxonomicos_genero $especie->dtaxonomicos_especie</td>";
-            echo '<td>
-                      <div class="btn-group" role="" aria-label="Grupo vistas">
-                        <a class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Vista 1" href="' . base_url() . 'cb/especies/v1/' . $especie->id . '" role="button"><img width="25" height="25" src="' . base_url() . '/public/img/icono_v1.svg" alt=""/></a>
-                        <a class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Vista 2" href="' . base_url() . 'cb/especies/v2/' . $especie->id . '" role="button"><img width="25" height="25" src="' . base_url() . '/public/img/icono_v2.svg" alt=""/></a>
-                        <a class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Vista 3" href="' . base_url() . 'cb/especies/v3/' . $especie->id . '" role="button"><img width="25" height="25" src="' . base_url() . '/public/img/icono_v3.svg" alt=""/></a>
-                        <a class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="Vista 4" href="' . base_url() . 'cb/especies/v4/' . $especie->id . '" role="button"><img width="25" height="25" src="' . base_url() . '/public/img/icono_v4.svg" alt=""/></a>
-                      </div>
-                  </td>';
-            echo "</tr>";
+            if ($especie->consulta_restrigida == 0) {
+              echo "<tr>";
+              echo "<td>$especie->dtaxonomicos_nombre_comun</td>";
+              echo "<td class='fst-italic'>$especie->dtaxonomicos_genero $especie->dtaxonomicos_especie</td>";
+              echo '<td>
+                        <div class="btn-group" role="" aria-label="Grupo vistas">
+                          <a class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="8 años o menos" href="' . base_url() . 'cb/especies/v1/' . $especie->id . '" role="button"><img width="25" height="25" src="' . base_url() . '/public/img/icono_v1.svg" alt=""/></a>
+                          <a class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="9 a 14 años" href="' . base_url() . 'cb/especies/v2/' . $especie->id . '" role="button"><img width="25" height="25" src="' . base_url() . '/public/img/icono_v2.svg" alt=""/></a>
+                          <a class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="15 a 17 años" href="' . base_url() . 'cb/especies/v3/' . $especie->id . '" role="button"><img width="25" height="25" src="' . base_url() . '/public/img/icono_v3.svg" alt=""/></a>
+                          <a class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title="18 años o más" href="' . base_url() . 'cb/especies/v4/' . $especie->id . '" role="button"><img width="25" height="25" src="' . base_url() . '/public/img/icono_v4.svg" alt=""/></a>
+                        </div>
+                    </td>';
+              echo "</tr>";
+            }
           } ?>
         </tbody>
       </table>

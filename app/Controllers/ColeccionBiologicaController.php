@@ -11,7 +11,7 @@ class ColeccionBiologicaController extends BaseController
     public function getEspecies(): string
     {
         $db = \Config\Database::connect();
-        $query = $db->query('SELECT id,dtaxonomicos_nombre_comun, dtaxonomicos_genero, dtaxonomicos_especie FROM tbl_especimenes');
+        $query = $db->query('SELECT id,dtaxonomicos_nombre_comun, dtaxonomicos_genero, dtaxonomicos_especie, consulta_restrigida FROM tbl_especimenes');
         $result = $query->getResult();
         return view('cb_dinamica', ['especies' => $result]);
     }
