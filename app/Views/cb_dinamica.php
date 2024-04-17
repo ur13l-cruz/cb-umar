@@ -2,7 +2,7 @@
 <?php $this->extend('layouts/layout'); ?>
 
 <?php $this->section('contenido'); ?>
-
+<!-- Sección de navegación, Breadcrumb -->
 <div class="container-fluid " style="background-color: rgb(0 69 118); color:white;">
   <div class="container">
     <p class="">
@@ -12,23 +12,21 @@
     </p>
   </div>
 </div>
-
 <div class="container">
   <section class="row text-center mt-3">
     <h2>COLECCIÓN BIOLÓGICA</h2>
   </section>
-
+  <!-- Sección de búsqueda de especies, contiene un campo de entrada y un botón para buscar especies por nombre común o científico -->
   <section class="row mt-5">
     <div class="col-md-4">
       <div class="input-group mb-3">
         <input id="inputBuscarEscecimen" type="text" class="form-control" placeholder="Nombre común o científico" aria-label="Buscar especimen" aria-describedby="btnBuscarEscecimen">
         <button class="btn btn-primary" type="button" id="btnBuscarEscecimen">Buscar</button>
-
       </div>
     </div>
   </section>
+  <!-- Tabla responsiva de especies, muestra el nombre común, nombre científico y los botones que redireccionan a cada una de las vistas de dicha especie -->
   <section class="row mt-3">
-    <!-- tabla rellenada con la informacion de la base de datos, con js mostrar las filas. -->
     <div class="table-responsive">
       <table class="table text-center align-middle">
         <thead>
@@ -39,6 +37,7 @@
           </tr>
         </thead>
         <tbody>
+          <!-- Itera sobre cada especie y muestra una fila en la tabla, utiliza tooltips en cada botón -->
           <?php foreach ($especies as $especie) {
             if ($especie->consulta_restrigida == 0) {
               echo "<tr>";
@@ -59,6 +58,7 @@
       </table>
     </div>
   </section>
+  <!-- Sección de simbología -->
   <section class="row mt-3 mb-3 border border-2 rounded" style="text-align: justify;">
     <h5>Simbología</h5>
     <div>
@@ -81,21 +81,21 @@
 </div>
 
 <script>
+  /**
+   * Agrega un event listener al botón 'Buscar Escecimen' y filtra las filas de la tabla según el término de búsqueda.
+   */
   document.getElementById('btnBuscarEscecimen').addEventListener('click', function() {
-    // Obtiene el término de búsqueda del campo de entrada
+    // Obtiene el término de búsqueda del campo de entrada en minúsculas
     var terminoBusqueda = document.getElementById('inputBuscarEscecimen').value.toLowerCase();
-
     // Obtiene todas las filas de la tabla
     var filas = document.querySelectorAll('tbody tr');
-
     // Itera sobre cada fila de la tabla
     filas.forEach(function(fila) {
-      // Comprueba si la fila tiene suficientes celdas
+      // Comienza de la fila 2 porque la fila 1 contiene los encabezados de la tabla
       if (fila.cells.length >= 2) {
         // Obtiene las celdas de nombre común y nombre científico de la fila
         var celdaNombreComun = fila.cells[0];
         var celdaNombreCientifico = fila.cells[1];
-
         // Comprueba si el término de búsqueda está en el nombre común o en el nombre científico
         if (celdaNombreComun.textContent.toLowerCase().includes(terminoBusqueda) || celdaNombreCientifico.textContent.toLowerCase().includes(terminoBusqueda)) {
           // Si el término de búsqueda está en el nombre común o en el nombre científico, muestra la fila

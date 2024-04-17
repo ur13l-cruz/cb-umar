@@ -4,14 +4,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Favicon, icono de la página -->
   <link rel="icon" type="image/png" href="<?php echo base_url() ?>public/img/favicon.ico" />
+  <!-- Bootstrap CSS -->
   <link href="<?php echo base_url() ?>/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Iconos de Bootstrap -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Estilos personalizados -->
   <link rel="stylesheet" href="<?php echo base_url() ?>public/css/estilos.css" />
+  <!-- Estilos de OpenLayers, mapa para la geolocalización-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v9.1.0/ol.css">
   <title>Colección biológica del LCB UMAR campus Puerto Escondido</title>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
+  <!-- Header -->
   <header class="d-none d-lg-block">
     <div class="container">
       <div class="row mt-5 mb-5 justify-content-center">
@@ -30,9 +37,7 @@
       <a class="navbar-brand d-lg-none" href="<?php echo base_url(); ?>">
         <img src="<?php echo base_url() ?>public/img/UMAR.png" alt="Logo" width="50" class="">
       </a>
-
-      <!-- Botón de hamburguesa para mostrar el menu en dispositivos moviles -->
-
+      <!-- Menú de navegación, opciones -->
       <div class="collapse navbar-collapse justify-content-center" id="navbarScroll">
         <div>
           <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll " style="--bs-scroll-height: 200px">
@@ -51,30 +56,72 @@
             </li>
           </ul>
         </div>
-
       </div>
     </div>
   </nav>
-
-
-
-
-
+  <!-- Contenido dinamico -->
   <div class="">
     <?php echo $this->renderSection('contenido'); ?>
   </div>
-
+  <!-- Footer -->
   <footer class="footer mt-auto py-3" style="background-color: rgb(0 69 118);">
     <div class="container text-center">
       <span class="text-white">Derechos reservados <a class="links" href="https://www.umar.mx/web/" target="_blank">UMAR</a> © 2024</span>
     </div>
   </footer>
-
+  <!-- Bootstrap JS -->
   <script src="<?php echo base_url() ?>/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- OpenLayers JS -->
+  <script src="https://cdn.jsdelivr.net/npm/ol@v9.1.0/dist/ol.js"></script>
+  <!-- JavaScript personalizado -->
   <script>
+    // Inicializa los tooltips de Bootstrap
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    /**
+     * Crea una nueva instancia de mapa OpenLayers.
+     *
+     * @param {string} target - El ID del elemento HTML donde se renderizará el mapa.
+     * @param {number[]} center - Las coordenadas del centro del mapa en el formato [longitud, latitud].
+     * @param {number} zoom - El nivel de zoom inicial del mapa.
+     * @returns {ol.Map} La nueva instancia de mapa OpenLayers creada.
+     */
+    var map = new ol.Map({
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        })
+      ],
+      target: 'map',
+      view: new ol.View({
+        center: ol.proj.fromLonLat([0, 0]),
+        zoom: 1
+      })
+    });
+
+    /**
+     * Obtiene las coordenadas geográficas de una localidad utilizando el servicio de geocodificación de OpenStreetMap.
+     *
+     * @param string $localidad La localidad de la cual se desean obtener las coordenadas.
+     * @param callable $callback La función de devolución de llamada que se ejecutará una vez que se obtengan las coordenadas.
+     *                           Recibe un arreglo con las coordenadas en el siguiente formato: [longitud, latitud].
+     * @return void
+     */
+    function getCoordinates(localidad, callback) {
+      fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + localidad)
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(json) {
+          var lat = json[0].lat;
+          var lon = json[0].lon;
+          callback([parseFloat(lon), parseFloat(lat)]);
+        });
+    }
   </script>
+  <!-- JavaScript dinamico de cada pagina a renderizar -->
+  <?php echo $this->renderSection('javascript'); ?>
 </body>
 
 </html>
