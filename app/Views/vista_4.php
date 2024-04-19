@@ -2,6 +2,9 @@
 
 <?php $this->section('contenido'); ?>
 <?php
+foreach ($especie as $key => $value) {
+  echo "<script>console.log('".$value."')</script>";
+}
 $contadorTabDescripcion = 0;
 
 $isDatosTaxonomicos = false;
@@ -47,79 +50,70 @@ $isDatosColecta = false;
   </div>
   <div class="row">
     <div class="col-12 col-sm-6 order-2 order-sm-1">
-      <div class="row">
-        <!-- Carousel imagenes especie viva -->
-        <?php
-        $ruta = "public/img/especie_viva/" . $especie->id . "/";
-        $existeRuta = is_dir($ruta);
-        ?>
-        <div id="carouselExample2" class="carousel slide">
-          <div class="carousel-inner">
-            <?php
-            //saber cuantos archivos tiene mi ruta
-            if ($existeRuta) {
-              $archivos = scandir($ruta);
-              $cantidad = count($archivos) - 2;
-              $active = "active";
-              for ($i = 0; $i < $cantidad; $i++) {
-                echo '
+      <?php if ($especie->carrusel_especie_viva) { ?>
+        <div class="row">
+          <!-- Carousel imagenes especie viva -->
+          <?php
+          $ruta = "public/" . $especie->carrusel_especie_viva . "/";
+          $existeRuta = is_dir($ruta);
+          ?>
+          <div id="carouselExample2" class="carousel slide">
+            <div class="carousel-inner">
+              <?php
+              //saber cuantos archivos tiene mi ruta
+              if ($existeRuta) {
+                $archivos = scandir($ruta);
+                $cantidad = count($archivos) - 2;
+                $active = "active";
+                for ($i = 0; $i < $cantidad; $i++) {
+                  echo '
                   <div class="carousel-item ' . $active . '">
-                    <img src="' . base_url() . 'public/img/especie_viva/' . $especie->id . '/' . $archivos[$i + 2] . '" class="d-block w-100" alt="...">
+                    <img src="' . base_url() . 'public/' . $especie->carrusel_especie_viva . '/' . $archivos[$i + 2] . '" class="d-block w-100" alt="...">
                   </div>';
-                $active = "";
+                  $active = "";
+                }
               }
-            }
-            ?>
+              ?>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample2" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample2" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-        <?php if ($existeRuta) { ?>
-          <figcaption class="figure-caption text-center">Fuente: <?= $especie->fuentes_carrusel_especie_viva ?></figcaption>
-        <?php } ?>
+          <?php if ($existeRuta) { ?>
+            <figcaption class="figure-caption text-center">Fuente: <?= $especie->fuentes_carrusel_especie_viva ?></figcaption>
+          <?php } ?>
 
-      </div>
-      <?php if (true) { ?>
+        </div>
+      <?php } ?>
+      <?php if ($especie->carrusel_especie_coleccion) { ?>
         <div class="row mt-3">
           <!-- Carousel imagenes especie en colección -->
+          <?php
+          $ruta = "public/" . $especie->carrusel_especie_coleccion . "/";
+          $existeRuta = is_dir($ruta);
+          ?>
           <div id="carouselExample" class="carousel slide">
             <div class="carousel-inner">
               <?php
               //saber cuantos archivos tiene mi ruta
-              /*
-            $ruta = "public/img/especie_viva/" . $especie->id . "/";
-            $existeRuta = is_dir($ruta);
-            if ($existeRuta) {
-              echo "<script>console.log('Existe');</script>";
-              $archivos = scandir($ruta);
-              $cantidad = count($archivos) - 2;
-              $active = "active";
-              for ($i = 0; $i < $cantidad; $i++) {
-                echo '
+              if ($existeRuta) {
+                $archivos = scandir($ruta);
+                $cantidad = count($archivos) - 2;
+                $active = "active";
+                for ($i = 0; $i < $cantidad; $i++) {
+                  echo '
                   <div class="carousel-item ' . $active . '">
-                    <img src="' . base_url() . 'public/img/especie_coleccion/' . $especie->id . '/' . $archivos[$i + 2] . '" class="d-block w-100" alt="...">
+                    <img src="' . base_url() . 'public/' . $especie->carrusel_especie_coleccion . '/' . $archivos[$i + 2] . '" class="d-block w-100" alt="...">
                   </div>';
-                $active = "";
+                  $active = "";
+                }
               }
-            }*/
               ?>
-              <div class="carousel-item active">
-                <img src="<?= base_url() ?>public/img/especie_coleccion/1/foto1.jpg" class="d-block w-100" alt="...">
-
-              </div>
-              <div class="carousel-item">
-                <img src="<?= base_url() ?>public/img/especie_coleccion/1/foto1.jpg" class="d-block w-100" alt="...">
-
-              </div>
-              <div class="carousel-item">
-                <img src="<?= base_url() ?>public/img/especie_coleccion/1/foto1.jpg" class="d-block w-100" alt="...">
-              </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -180,9 +174,9 @@ $isDatosColecta = false;
         <button class="nav-link active" id="coleccion-tab" data-bs-toggle="tab" data-bs-target="#coleccion-tab-pane" type="button" role="tab" aria-controls="coleccion-tab-pane" aria-selected="true">Colección</button>
       </li>
       <?php if ($especie->info_estado_conservacion_v3_v4 || $especie->info_amenazas_v3_v4) { ?>
-      <li class="nav-item" role="estatus">
-        <button class="nav-link" id="estatus-tab" data-bs-toggle="tab" data-bs-target="#estatus-tab-pane" type="button" role="tab" aria-controls="estatus-tab-pane" aria-selected="true">Estatus</button>
-      </li>
+        <li class="nav-item" role="estatus">
+          <button class="nav-link" id="estatus-tab" data-bs-toggle="tab" data-bs-target="#estatus-tab-pane" type="button" role="tab" aria-controls="estatus-tab-pane" aria-selected="true">Estatus</button>
+        </li>
       <?php } ?>
       <li class="nav-item" role="descripcion">
         <button class="nav-link" id="descripcion-tab" data-bs-toggle="tab" data-bs-target="#descripcion-tab-pane" type="button" role="tab" aria-controls="descripcion-tab-pane" aria-selected="false">Descripción</button>
